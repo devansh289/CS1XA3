@@ -59,6 +59,10 @@ def account_view(request):
                 return redirect('login:login_view')
         else:
             form = PasswordChangeForm(request.user)
+            #print(request.GET.get('employment'))
+            #print(request.GET.get('location'))
+            #print(request.GET.get('birthday'))
+            #print(request.GET.get('interest'))
 
         context = { 'user_info' : user_info,
                     'form' : form }
@@ -66,6 +70,28 @@ def account_view(request):
 
     request.session['failed'] = True
     return redirect('login:login_view')
+
+
+def update_view(request):
+    if request.user.is_authenticated:
+        user_info = models.UserInfo.objects.get(user=request.user)
+        if request.method == "GET":
+            print(request.GET.get('employment'))
+            print(request.GET.get('location'))
+            print(request.GET.get('birthday'))
+            print(request.GET.get('interest'))
+
+
+            user_info.employment = request.GET.get('employment')
+            user_info.location = request.GET.get('location')
+            user_info.birthday = request.GET.get('birthday')
+            user_info.interests.add(models.Interest.objects.create(label=request.GET.get('interest')))
+            user_info.save()
+
+            return redirect('social:account_view')
+
+
+
 
 def people_view(request):
     """Private Page Only an Authorized User Can View, renders people page
