@@ -19,7 +19,6 @@ def messages_view(request):
     if request.user.is_authenticated:
         user_info = models.UserInfo.objects.get(user=request.user)
 
-
         # TODO Objective 9: query for posts (HINT only return posts needed to be displayed)
         posts = []
 
