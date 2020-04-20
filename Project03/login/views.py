@@ -77,6 +77,7 @@ def signup_view(request):
             if user is not None:
                 login(request,user)
                 request.session['failed'] = False
+                request.session['ppl_view'] = 1
                 return redirect('social:messages_view')
             else:
                 request.session['failed'] = True

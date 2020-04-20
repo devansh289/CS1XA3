@@ -115,7 +115,9 @@ def people_view(request):
 
         # TODO Objective 5: create a list of all friend requests to current user
         friend_requests = []
-
+        this_obj = models.UserInfo.objects.get(user_id=request.user.id)
+        for user in models.FriendRequest.objects.filter(to_user=this_obj):
+            friend_requests.append(user)
         context = { 'user_info' : user_info,
                     'all_people' : all_people[:ppl_count],
                     'friend_requests' : friend_requests }
@@ -244,7 +246,12 @@ def friend_request_view(request):
 
         if request.user.is_authenticated:
             # TODO Objective 5: add new entry to FriendRequest
+            fr_id = models.User.objects.get(username=username).id
+            fr_obj = models.UserInfo.objects.get(user_id=fr_id)
 
+            this_obj = models.UserInfo.objects.get(user_id=request.user.id)
+
+            models.FriendRequest.objects.create(to_user=fr_obj, from_user=this_obj)
             # return status='success'
             return HttpResponse()
         else:
@@ -267,15 +274,26 @@ def accept_decline_view(request):
    	  out : (HttpResponse) - deletes entry to FriendRequest table, appends friends in UserInfo Models,
                              then returns an empty HttpResponse, 404 if POST data doesn't contain decision
     '''
-    data = request.POST.get('decision')
+    data = request.POST.get('accept')
+    print("A")
+    import json
+    print(data)
+    print("B")
     if data is not None:
         # TODO Objective 6: parse decision from data
 
         if request.user.is_authenticated:
+            fr_id = models.User.objects.get(username=request.POST.get('sender')).id
+            fr_obj = models.UserInfo.objects.get(user_id=fr_id)
 
+            this_obj = models.UserInfo.objects.get(user_id=request.user.id)
+            print(request.POST.get('accept'))
             # TODO Objective 6: delete FriendRequest entry and update friends in both Users
-
-            # return status='success'
+            if request.POST.get('accept') == 'yes':
+                this_obj.friends.add(fr_obj)
+                fr_obj.friends.add(this_obj)
+            remove_request = models.FriendRequest.objects.get(from_user=fr_obj, to_user=this_obj)
+            remove_request.delete()
             return HttpResponse()
         else:
             return redirect('login:login_view')
