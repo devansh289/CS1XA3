@@ -24,6 +24,10 @@ def login_view(request):
         if user is not None:
             login(request,user)
             request.session['failed'] = False
+            request.session['ppl_view'] = 1
+
+            print(request.session['failed'])
+            print(request.session['ppl_view'])
             return redirect('social:messages_view')
         else:
             request.session['failed'] = True
@@ -47,6 +51,7 @@ def logout_view(request):
     # TODO Objective 4 and 9: reset sessions variables
 
     # logout user
+    request.session['ppl_view'] = 1
     logout(request)
 
     return redirect('login:login_view')

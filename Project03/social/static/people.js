@@ -30,7 +30,9 @@ function friendRequest(event) {
    ********************************************************************************************
    */
 function morePplResponse(data,status) {
+    console.log(status)
     if (status == 'success') {
+        console.log("SUCESSSS")
         // reload page to display new Post
         location.reload();
     }
@@ -44,7 +46,6 @@ function submitMorePpl(event) {
     let json_data = { };
     // globally defined in messages.djhtml using i{% url 'social:more_post_view' %}
     let url_path = more_ppl_url;
-
     // AJAX post
     $.post(url_path,
            json_data,

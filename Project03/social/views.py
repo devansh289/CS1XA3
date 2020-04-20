@@ -18,7 +18,7 @@ def messages_view(request):
     """
     if request.user.is_authenticated:
         user_info = models.UserInfo.objects.get(user=request.user)
-
+        print(request.session['ppl_view'])
         # TODO Objective 9: query for posts (HINT only return posts needed to be displayed)
         posts = []
 
@@ -50,7 +50,7 @@ def account_view(request):
         # TODO Objective 3: Create Forms and Handle POST to Update UserInfo / Password
 
         user_info = models.UserInfo.objects.get(user=request.user)
-
+        print(request.session['ppl_view'])
         if request.method == "POST":
             form = PasswordChangeForm(request.user, request.POST)
             if form.is_valid():
@@ -107,12 +107,17 @@ def people_view(request):
         user_info = models.UserInfo.objects.get(user=request.user)
         # TODO Objective 4: create a list of all users who aren't friends to the current user (and limit size)
         all_people = []
+        print(request.session['ppl_view'])
+        ppl_count = request.session['ppl_view']
+        for user in models.UserInfo.objects.all():
+            if user not in user_info.friends.all() and user != user_info:
+                all_people.append(user)
 
         # TODO Objective 5: create a list of all friend requests to current user
         friend_requests = []
 
         context = { 'user_info' : user_info,
-                    'all_people' : all_people,
+                    'all_people' : all_people[:ppl_count],
                     'friend_requests' : friend_requests }
 
         return render(request,'people.djhtml',context)
@@ -209,9 +214,11 @@ def more_ppl_view(request):
     '''
     if request.user.is_authenticated:
         # update the # of people dispalyed
-
+        print('---------------------------------')
+        print('view incremented')
         # TODO Objective 4: increment session variable for keeping track of num ppl displayed
-
+        ppl = request.session.get('ppl_view', 1)
+        request.session['ppl_view'] = ppl+1
         # return status='success'
         return HttpResponse()
 
