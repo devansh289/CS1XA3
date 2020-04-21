@@ -26,8 +26,22 @@ function postCallback(data, status) {
    ********************************************************************************************
    */
 function submitLike(event) {
-    alert('Like Button Pressed');
+    console.log('Like Button Pressed');
+    console.log(event.currentTarget);
     // TODO Objective 10: send post-n id via AJAX POST to like_view (reload page upon success)
+    post_id = {'postId' : event.currentTarget.id}
+    console.log(post_id)
+    $.post(like_post_url, post_id, submitLikeHandler)
+}
+
+function submitLikeHandler(data,status) {
+    if (status == 'success') {
+        // reload page to display new Post
+        location.reload();
+    }
+    else {
+        alert('failed to request more posts' + status);
+    }
 }
 
 /* ********************************************************************************************

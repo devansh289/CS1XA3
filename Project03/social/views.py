@@ -145,15 +145,16 @@ def like_view(request):
                              adds the current user to the likes attribute, then returns
                              an empty HttpResponse, 404 if any error occurs
     '''
-    postIDReq = request.POST.get('postID')
+    postIDReq = request.POST.get('postId')
     if postIDReq is not None:
         # remove 'post-' from postID and convert to int
         # TODO Objective 10: parse post id from postIDReq
-        postID = 0
+        print(postIDReq)
 
         if request.user.is_authenticated:
+            user_info = models.UserInfo.objects.get(user=request.user)
             # TODO Objective 10: update Post model entry to add user to likes field
-
+            models.Post.objects.get(id=postIDReq).likes.add(user_info)
             # return status='success'
             return HttpResponse()
         else:

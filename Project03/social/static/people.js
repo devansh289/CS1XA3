@@ -14,7 +14,8 @@ function frResponse(data,status) {
 
 function friendRequest(event) {
     // the id of the current button, should be fr-name where name is valid username
-    let frID = event.target.id;
+    let frID = event.currentTarget.id;
+    console.log(event.target.id)
     let json_data = { 'frID' : frID };
     // globally defined in messages.djhtml using i{% url 'social:like_view' %}
     let url_path = friend_request_url;
@@ -60,21 +61,24 @@ function submitMorePpl(event) {
 
 function acceptDeclineRequest(event) {
     // TODO Objective 6: perform AJAX POST to accept or decline Friend Request
+    console.log(event)
+    console.log(event.target)
+    console.log(event.currentTarget)
     let decision = {"accept": 'input', "sender":"unknown"}
-    console.log(1)
-    if (this.title == "Accept"){
+    //console.log(1)
+    if (event.currentTarget.title == "Accept"){
         decision["accept"] = 'yes'
-        decision["sender"] = this.id
+        decision["sender"] = event.currentTarget.id
     } else {
         decision["accept"] = 'no'
-        decision["sender"] = this.id
+        decision["sender"] = event.currentTarget.id
     }
     //console.log(this.id);
     //console.log(this.title);
-    console.log("Click what" + this.title)
-    console.log(decision.accept)
-    console.log(console.log(this.id))
-    console.log(2)
+    //console.log("Click what" + this.title)
+    //console.log(decision.accept)
+    //console.log(console.log(this.id))
+    //console.log(2)
     $.post(accept_decline_url, decision, adrHandler);
 }
 
