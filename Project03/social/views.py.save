@@ -171,13 +171,12 @@ def post_submit_view(request):
    	  out : (HttpResponse) - after adding a new entry to the POST model, returns an empty HttpResponse,
                              or 404 if any error occurs
     '''
-    user_info = models.UserInfo.objects.get(user=request.user)
-    postContent = request.POST.get('post_text')
+    postContent = request.POST.get('postContent')
     if postContent is not None:
         if request.user.is_authenticated:
 
             # TODO Objective 8: Add a new entry to the Post model
-            models.Post.objects.create(owner=user_info, content=postContent)
+
             # return status='success'
             return HttpResponse()
         else:
@@ -275,26 +274,14 @@ def accept_decline_view(request):
    	  out : (HttpResponse) - deletes entry to FriendRequest table, appends friends in UserInfo Models,
                              then returns an empty HttpResponse, 404 if POST data doesn't contain decision
     '''
-    data = request.POST.get('accept')
-    print("A")
-    import json
-    print(data)
-    print("B")
+    data = request.POST.get('request_status')
     if data is not None:
         # TODO Objective 6: parse decision from data
 
         if request.user.is_authenticated:
-            fr_id = models.User.objects.get(username=request.POST.get('sender')).id
-            fr_obj = models.UserInfo.objects.get(user_id=fr_id)
 
-            this_obj = models.UserInfo.objects.get(user_id=request.user.id)
-            print(request.POST.get('accept'))
             # TODO Objective 6: delete FriendRequest entry and update friends in both Users
-            if request.POST.get('accept') == 'yes':
-                this_obj.friends.add(fr_obj)
-                fr_obj.friends.add(this_obj)
-            remove_request = models.FriendRequest.objects.get(from_user=fr_obj, to_user=this_obj)
-            remove_request.delete()
+			           # return status='success'
             return HttpResponse()
         else:
             return redirect('login:login_view')

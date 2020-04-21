@@ -3,9 +3,23 @@
    ********************************************************************************************
    */
 function submitPost(event) {
-    alert('Post Button Pressed');
+    post_text = $( "#post-text" ).text()
+    $.post(post_submit_url,
+           {'post_text': post_text},
+           postCallback);
     // TODO Objective 8: send contents of post-text via AJAX Post to post_submit_view (reload page upon success)
 }
+
+function postCallback(data, status) {
+    if (status == 'success') {
+        console.log("SUCESSSS")
+        location.reload();
+    }
+    else {
+        alert('failed to request more ppl' + status);
+    }
+};
+
 
 /* ********************************************************************************************
    | Handle Liking Posts - called by $('.like-button').click(submitLike)
