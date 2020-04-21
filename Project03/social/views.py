@@ -19,13 +19,15 @@ def messages_view(request):
     if request.user.is_authenticated:
         user_info = models.UserInfo.objects.get(user=request.user)
         print(request.session['ppl_view'])
+        post_count = request.session['post_view']
         # TODO Objective 9: query for posts (HINT only return posts needed to be displayed)
         posts = []
-
+        for post in models.Post.objects.all().order_by('-timestamp'):
+            posts.append(post)
         # TODO Objective 10: check if user has like post, attach as a new attribute to each post
 
         context = { 'user_info' : user_info
-                  , 'posts' : posts }
+                  , 'posts' : posts[:post_count] }
         return render(request,'messages.djhtml',context)
 
     request.session['failed'] = True
@@ -199,7 +201,8 @@ def more_post_view(request):
         # update the # of posts dispalyed
 
         # TODO Objective 9: update how many posts are displayed/returned by messages_view
-
+        posts = request.session.get('post_view', 1)
+        request.session['post_view'] = posts+1
         # return status='success'
         return HttpResponse()
 

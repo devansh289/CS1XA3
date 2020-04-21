@@ -25,6 +25,7 @@ def login_view(request):
             login(request,user)
             request.session['failed'] = False
             request.session['ppl_view'] = 1
+            request.session['post_view'] = 1
 
             print(request.session['failed'])
             print(request.session['ppl_view'])
@@ -52,6 +53,7 @@ def logout_view(request):
 
     # logout user
     request.session['ppl_view'] = 1
+    request.session['post_view'] = 1
     logout(request)
 
     return redirect('login:login_view')
