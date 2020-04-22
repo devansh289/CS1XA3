@@ -120,9 +120,15 @@ def people_view(request):
         this_obj = models.UserInfo.objects.get(user_id=request.user.id)
         for user in models.FriendRequest.objects.filter(to_user=this_obj):
             friend_requests.append(user)
+
+        fr_req_sent = []
+        for req in models.FriendRequest.objects.filter(from_user = this_obj):
+            fr_req_sent.append(req)
+        print(fr_req_sent)
         context = { 'user_info' : user_info,
                     'all_people' : all_people[:ppl_count],
-                    'friend_requests' : friend_requests }
+                    'friend_requests' : friend_requests,
+                    'req_sent' : fr_req_sent}
 
         return render(request,'people.djhtml',context)
 
@@ -154,7 +160,16 @@ def like_view(request):
         if request.user.is_authenticated:
             user_info = models.UserInfo.objects.get(user=request.user)
             # TODO Objective 10: update Post model entry to add user to likes field
-            models.Post.objects.get(id=postIDReq).likes.add(user_info)
+
+
+            print("User:", user_info)
+            print(models.Post.objects.all())
+
+
+            if user_info not in models.Post.objects.get(id=postIDReq).likes.all():
+                models.Post.objects.get(id=postIDReq).likes.add(user_info)
+            else:
+                models.Post.objects.get(id=postIDReq).likes.remove(user_info)
             # return status='success'
             return HttpResponse()
         else:

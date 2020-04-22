@@ -7,8 +7,8 @@
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Share Your Stupid Thoughts!</h6>
-              <p id="post-text" contenteditable="true" class="w3-border w3-padding">Status: Feeling Like A Sentient Rock</p>
+              <h6 class="w3-opacity">Share Your Thoughts!</h6>
+              <p id="post-text" contenteditable="true" class="w3-border w3-padding" placeholder="Just went to the Movies!"></p>
               <button type="button" id="post-button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button>
             </div>
           </div>
@@ -28,10 +28,12 @@
             <!-- TODO Objective 10: Add Post id and likes count -->
 		{% if user_info not in post.likes.all %}
                     <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom like-button" id="{{post.id}}" timestamp="{{post.timestamp}}">
+                    <i class="fa fa-thumbs-up"></i>  Like</button>
 		{% else %}
-		    <button type="button" class="w3-button w3-disabled w3-theme-d1 w3-margin-bottom " id="{{post.id}}" timestamp="{{post.timestamp}}">
+		    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom like-button" id="{{post.id}}" timestamp="{{post.timestamp}}">
+			<i class="fa fa-thumbs-down"></i>Unlike</button>
 		{% endif %}
-                        <i class="fa fa-thumbs-up"></i>  Like</button>
+            
             <span class="w3-button w3-theme-d1 w3-margin-bottom">{{post.likes.count}} Likes</span>
         </div>
 	{% endfor %}

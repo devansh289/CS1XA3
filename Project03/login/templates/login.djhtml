@@ -41,6 +41,11 @@ class="close" title="Close Modal">&times;</span>
 </div>
 {% endblock %}
 
+{% if failed %}
+<div>Please Try Again.</div>
+{% endif %}
+
+
 {% block script %}
     <script>
      // Get the modal
