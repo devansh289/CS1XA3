@@ -31,7 +31,7 @@
                     <i class="fa fa-thumbs-up"></i>  Like</button>
 		{% else %}
 		    <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom like-button" id="{{post.id}}" timestamp="{{post.timestamp}}">
-			<i class="fa fa-thumbs-down"></i>Unlike</button>
+		    <i class="fa fa-thumbs-down"></i>Unlike</button>
 		{% endif %}
             
             <span class="w3-button w3-theme-d1 w3-margin-bottom">{{post.likes.count}} Likes</span>
@@ -51,7 +51,7 @@
           <p>{{friend.user}}</p>
           {% load static %}
           <img src="{% static 'avatar.png'  %}" alt="Avatar" style="width:50%"><br>
-          <span>TODO Add Friend</span>
+          <span>{{friend.employment}}
         </div>
       </div>
 	{% endfor %}

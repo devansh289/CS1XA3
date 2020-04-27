@@ -295,10 +295,10 @@ def accept_decline_view(request):
                              then returns an empty HttpResponse, 404 if POST data doesn't contain decision
     '''
     data = request.POST.get('accept')
-    print("A")
-    import json
-    print(data)
-    print("B")
+    #print("A")
+    #import json
+    #print(data)
+    #print("B")
     if data is not None:
         # TODO Objective 6: parse decision from data
 
